@@ -10,6 +10,7 @@ export default class NoteService {
             }
         ).catch((e) => {
             console.log(e)
+            return []
         })
     }
 

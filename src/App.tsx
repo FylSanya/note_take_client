@@ -12,12 +12,27 @@ const noteService = new NoteService();
 const App = () => {
     const [notes, setNotes] = useState<INoteDB[]>([]);
     const [activeNote, setActiveNote] = useState<string | null>(null);
+    // let ws: WebSocket | null= null
+
 
     useEffect(() => {
         noteService.fetchNotes().then((response) => {
             setNotes(response!)
         })
     }, [])
+
+    // useEffect(() => {
+    //     ws = new WebSocket("ws://localhost:8000/ws")
+    //
+    //     ws.onopen = () => ws!.send("Connected!")
+    //     ws.onmessage = (e) => {
+    //         // const data = JSON.parse(e.data);
+    //         console.log(e.data)
+    //     }
+    //     ws.onerror = (e) => {
+    //         console.log(e)
+    //     }
+    // }, [])
 
     const onAddNote = () => {
         const newNote: INote = {
@@ -52,7 +67,7 @@ const App = () => {
             return note;
         });
         setNotes(updatedNotesArr);
-        noteService.updateNote(updatedNote);
+        noteService.updateNote(updatedNote); // fix update on every char
     };
 
     const getActiveNote = () => {
