@@ -1,11 +1,11 @@
 import axios from "axios";
 import {ITemplate, ITemplateDB} from "../types/types";
 
-export default class TemplateService {
+class TemplateService {
     private readonly API_URL: string;
 
     constructor() {
-        this.API_URL = 'http://0.0.0.0:8000/templates/'
+        this.API_URL = '/templates/'
     }
 
     fetchTemplates = async () => {
@@ -45,3 +45,5 @@ export default class TemplateService {
 
     }
 }
+
+export default new TemplateService()

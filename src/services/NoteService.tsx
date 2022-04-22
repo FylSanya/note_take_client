@@ -1,11 +1,11 @@
 import axios from "axios";
 import {INote, INoteDB} from "../types/types";
 
-export default class NoteService {
+class NoteService {
     private readonly API_URL: string;
 
     constructor() {
-        this.API_URL = 'http://0.0.0.0:8000/notes/'
+        this.API_URL = '/notes/'
     }
 
     fetchNotes = async () => {
@@ -56,3 +56,5 @@ export default class NoteService {
 
     }
 }
+
+export default new NoteService()

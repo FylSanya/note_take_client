@@ -6,9 +6,6 @@ import {ActiveElement, INote, INoteDB, ITemplate, ITemplateDB} from "./types/typ
 import NoteService from "./services/NoteService";
 import TemplateService from "./services/TemplateService";
 
-const noteService = new NoteService();
-const templateService = new TemplateService();
-
 
 const App = () => {
     const [notes, setNotes] = useState<INoteDB[]>([]);
@@ -38,7 +35,7 @@ const App = () => {
             type: '',
             element_id: ''
         })
-        noteService.fetchFilteredNotes(searchQuery).then((response) => {
+        NoteService.fetchFilteredNotes(searchQuery).then((response) => {
                 setNotes(response!)
             }
         )
@@ -54,10 +51,10 @@ const App = () => {
 
 
     useEffect(() => {
-        noteService.fetchNotes().then((response) => {
+        NoteService.fetchNotes().then((response) => {
             setNotes(response!)
         })
-        templateService.fetchTemplates().then((response) => {
+        TemplateService.fetchTemplates().then((response) => {
             setTemplates(response!)
         })
     }, [])
@@ -67,7 +64,7 @@ const App = () => {
             title: "Untitled template",
             body: "Some template text...",
         };
-        templateService.createTemplate(newTemplate).then((template_id) => {
+        TemplateService.createTemplate(newTemplate).then((template_id) => {
             const newTemplateWithID: ITemplateDB = {
                 template_id: template_id,
                 ...newTemplate
@@ -82,7 +79,7 @@ const App = () => {
 
     const onDeleteTemplate = (templateId: string) => {
         setTemplates(templates.filter(({template_id}) => template_id !== templateId));
-        templateService.deleteTemplate(templateId);
+        TemplateService.deleteTemplate(templateId);
     };
 
     const onUpdateTemplate = (updatedTemplate: ITemplateDB) => {
@@ -95,7 +92,7 @@ const App = () => {
         });
         setTemplates(updatedTemplatesArr);
         clearTimeout(timeOutId.current!);
-        timeOutId.current = (setTimeout(() => templateService.updateTemplate(updatedTemplate), 10000));
+        timeOutId.current = (setTimeout(() => TemplateService.updateTemplate(updatedTemplate), 10000));
     };
 
     const onAddNote = (template_data?: ITemplate) => {
@@ -115,7 +112,7 @@ const App = () => {
                 modified: new Date(),
             };
         }
-        noteService.createNote(newNote).then((note_id) => {
+        NoteService.createNote(newNote).then((note_id) => {
             const newNoteWithID: INoteDB = {
                 note_id: note_id,
                 ...newNote
@@ -130,7 +127,7 @@ const App = () => {
 
     const onDeleteNote = (noteId: string) => {
         setNotes(notes.filter(({note_id}) => note_id !== noteId));
-        noteService.deleteNote(noteId);
+        NoteService.deleteNote(noteId);
     };
 
     const onUpdateNote = (updatedNote: INoteDB) => {
@@ -142,7 +139,7 @@ const App = () => {
         });
         setNotes(updatedNotesArr);
         clearTimeout(timeOutId.current!);
-        timeOutId.current = (setTimeout(() => noteService.updateNote(updatedNote), 10000));
+        timeOutId.current = (setTimeout(() => NoteService.updateNote(updatedNote), 10000));
     };
 
     const onUpdateElement = (updatedElem: INoteDB | ITemplateDB) => {
