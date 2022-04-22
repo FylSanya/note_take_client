@@ -1,13 +1,13 @@
-import React, {FC} from 'react';
-import {ActiveElement, ITemplateDB} from "../types/types";
+import React, {Dispatch, FC, SetStateAction} from 'react';
+import {ActiveElement, ITemplate, ITemplateDB} from "../types/types";
 import TemplateItem from "./TemplateItem";
 
 interface TemplateListProps {
     templates: ITemplateDB[]
-    activeElement: ActiveElement,
-    onDeleteTemplate: Function,
-    onAddNote: Function,
-    setIsTemplate: Function
+    activeElement: ActiveElement
+    onDeleteTemplate(templateId: string): void
+    onAddNote(template_data?: ITemplate): void
+    setIsTemplate: Dispatch<SetStateAction<boolean>>
 }
 
 const TemplateList: FC<TemplateListProps> = ({

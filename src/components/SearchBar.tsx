@@ -1,7 +1,7 @@
-import React, {FC} from 'react';
+import React, {Dispatch, FC, SetStateAction} from 'react';
 
 interface SearchBarProps {
-    setSearchQuery: Function
+    setSearchQuery: Dispatch<SetStateAction<string>>
 }
 
 const SearchBar: FC<SearchBarProps> = ({setSearchQuery}) => {

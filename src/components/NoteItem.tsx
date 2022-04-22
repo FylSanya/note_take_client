@@ -1,13 +1,13 @@
-import React, {FC} from 'react';
+import React, {Dispatch, FC, SetStateAction} from 'react';
 import {ActiveElement, INoteDB} from "../types/types";
 import {faFileLines, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface NoteItemProps {
     note: INoteDB
-    activeElement: ActiveElement,
-    setActiveElement: Function
-    onDeleteNote: Function,
+    activeElement: ActiveElement
+    setActiveElement: Dispatch<SetStateAction<ActiveElement>>
+    onDeleteNote(noteId: string): void
 }
 
 const NoteItem: FC<NoteItemProps> = ({note, activeElement, setActiveElement, onDeleteNote}) => {
