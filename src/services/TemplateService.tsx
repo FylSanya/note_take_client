@@ -19,15 +19,6 @@ export default class TemplateService {
         })
     }
 
-    // fetchOneNote = async (templateId: string) => {
-    //
-    //     try {
-    //         const response = await axios.get<ITemplateDB>(`${this.API_URL}${templateId}`)
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
-
     updateTemplate = async (updatedTemplate: ITemplateDB) => {
         try {
             await axios.put(`${this.API_URL}${updatedTemplate.template_id}`, updatedTemplate)

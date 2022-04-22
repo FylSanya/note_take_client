@@ -12,8 +12,9 @@ const templateService = new TemplateService();
 
 const App = () => {
     const [notes, setNotes] = useState<INoteDB[]>([]);
-    const [searchQuery, setSearchQuery] = useState<string>('')
     const [templates, setTemplates] = useState<ITemplateDB[]>([]);
+
+    const [searchQuery, setSearchQuery] = useState<string>('')
 
     const [activeElement, setActiveElement] = useState<ActiveElement>({
         type: "",
@@ -27,16 +28,10 @@ const App = () => {
             event.preventDefault();
             let charCode = (event.key).toLowerCase();
             if (charCode === 's') {
-                alert("CTRL+S Pressed");
-            } else if (charCode === 'c') {
-                alert("CTRL+C Pressed");
-            } else if (charCode === 'v') {
-                alert("CTRL+V Pressed");
+                onUpdateElement(getActiveElement()!)
             }
         }
-
-
-    }, []);
+    }, [activeElement, notes, templates]);
 
     useEffect(() => {
         setActiveElement({
@@ -50,10 +45,8 @@ const App = () => {
     }, [searchQuery])
 
     useEffect(() => {
-        // attach the event listener
         document.addEventListener('keydown', handleKeyPress);
 
-        // remove the event listener
         return () => {
             document.removeEventListener('keydown', handleKeyPress);
         };
@@ -86,6 +79,24 @@ const App = () => {
             });
         });
     }
+
+    const onDeleteTemplate = (templateId: string) => {
+        setTemplates(templates.filter(({template_id}) => template_id !== templateId));
+        templateService.deleteTemplate(templateId);
+    };
+
+    const onUpdateTemplate = (updatedTemplate: ITemplateDB) => {
+        const updatedTemplatesArr = templates.map((template) => {
+            if (template.template_id === updatedTemplate.template_id) {
+                return updatedTemplate;
+            }
+
+            return template;
+        });
+        setTemplates(updatedTemplatesArr);
+        clearTimeout(timeOutId.current!);
+        timeOutId.current = (setTimeout(() => templateService.updateTemplate(updatedTemplate), 10000));
+    };
 
     const onAddNote = (template_data?: ITemplate) => {
         let newNote: INote;
@@ -122,35 +133,16 @@ const App = () => {
         noteService.deleteNote(noteId);
     };
 
-    const onDeleteTemplate = (templateId: string) => {
-        setTemplates(templates.filter(({template_id}) => template_id !== templateId));
-        templateService.deleteTemplate(templateId);
-    };
-
-    const onUpdateTemplate = (updatedTemplate: ITemplateDB) => {
-        const updatedTemplatesArr = templates.map((template) => {
-            if (template.template_id === updatedTemplate.template_id) {
-                return updatedTemplate;
-            }
-
-            return template;
-        });
-        setTemplates(updatedTemplatesArr);
-        clearTimeout(timeOutId.current!);
-        timeOutId.current = (setTimeout(() => templateService.updateTemplate(updatedTemplate), 500));
-    };
-
     const onUpdateNote = (updatedNote: INoteDB) => {
         const updatedNotesArr = notes.map((note) => {
             if (note.note_id === updatedNote.note_id) {
                 return updatedNote;
             }
-
             return note;
         });
         setNotes(updatedNotesArr);
         clearTimeout(timeOutId.current!);
-        timeOutId.current = (setTimeout(() => noteService.updateNote(updatedNote), 500));
+        timeOutId.current = (setTimeout(() => noteService.updateNote(updatedNote), 10000));
     };
 
     const onUpdateElement = (updatedElem: INoteDB | ITemplateDB) => {
