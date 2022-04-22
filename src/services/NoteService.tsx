@@ -2,9 +2,14 @@ import axios from "axios";
 import {INote, INoteDB} from "../types/types";
 
 export default class NoteService {
+    private readonly API_URL: string;
+
+    constructor() {
+        this.API_URL = 'http://0.0.0.0:8000/notes/'
+    }
 
     fetchNotes = async () => {
-        return await axios.get<INoteDB[]>('http://0.0.0.0:8000/api/notes/').then(
+        return await axios.get<INoteDB[]>(this.API_URL).then(
             (response) => {
                 return response.data
             }
@@ -14,19 +19,20 @@ export default class NoteService {
         })
     }
 
-    // fetchOneNote = async (noteId: string) => {
-    //
-    //     try {
-    //         const response = await axios.get<INoteDB>(`http://0.0.0.0:8000/api/notes/${noteId}`)
-    //         setNotes([...notes, response.data])
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
+    fetchFilteredNotes = async (filteredQuery: string) => {
+        return await axios.get<INoteDB[]>(`${this.API_URL}${filteredQuery}`).then(
+            (response) => {
+                return response.data
+            }
+        ).catch((e) => {
+            console.log(e)
+            return []
+        })
+    }
 
     updateNote = async (updatedNote: INoteDB) => {
         try {
-            await axios.put(`http://0.0.0.0:8000/api/notes/${updatedNote.note_id}`, updatedNote)
+            await axios.put(`${this.API_URL}${updatedNote.note_id}`, updatedNote)
         } catch (e) {
             console.log(e)
         }
@@ -34,7 +40,7 @@ export default class NoteService {
 
     deleteNote = async (noteId: string) => {
         try {
-            await axios.delete(`http://0.0.0.0:8000/api/notes/${noteId}`)
+            await axios.delete(`${this.API_URL}${noteId}`)
         } catch (e) {
             console.log(e)
         }
@@ -42,7 +48,7 @@ export default class NoteService {
 
     createNote = async (note: INote) => {
         try {
-            const response = await axios.post(`http://0.0.0.0:8000/api/notes/`, note)
+            const response = await axios.post(this.API_URL, note)
             return response.data
         } catch (e) {
             console.log(e)

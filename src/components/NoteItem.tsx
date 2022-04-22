@@ -1,32 +1,43 @@
 import React, {FC} from 'react';
-import {INoteDB} from "../types/types";
+import {ActiveElement, INoteDB} from "../types/types";
+import {faFileLines, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface NoteItemProps {
     note: INoteDB
-    activeNote: string | null,
-    setActiveNote: Function
+    activeElement: ActiveElement,
+    setActiveElement: Function
     onDeleteNote: Function,
 }
 
-const NoteItem: FC<NoteItemProps> = ({note, activeNote, setActiveNote, onDeleteNote}) => {
+const NoteItem: FC<NoteItemProps> = ({note, activeElement, setActiveElement, onDeleteNote}) => {
+
     return (
         <div
-            className={`app-sidebar-note ${note.note_id === activeNote && "active"}`}
-            onClick={() => setActiveNote(note.note_id)}
+            className={`app-sidebar-note ${note.note_id === activeElement["element_id"] && "active"}`}
+            onClick={() => {
+                setActiveElement({
+                    type: "note",
+                    element_id: note.note_id
+                })
+            }}
         >
+            <div className="icon file">
+                <FontAwesomeIcon icon={faFileLines}/>
+            </div>
             <div className="sidebar-note-title">
-                <strong>{note.title}</strong>
-                <button onClick={() => onDeleteNote(note.note_id)}>Delete</button>
+                <p>{note.title.length > 25 ? note.title.substring(0, 25) + "..." : note.title}</p>
             </div>
 
-            <p>{note.body && note.body.substring(0, 20) + "..."}</p>
             <small className="note-meta">
-                Last Modified{" "}
-                {new Date(note.modified).toLocaleDateString("en-GB", {
-                    hour: "2-digit",
-                    minute: "2-digit",
+                {new Date(note.modified).toLocaleDateString("en-US", {
+                    month: 'short',
+                    day: 'numeric',
                 })}
             </small>
+            <div className="icon trash" onClick={() => onDeleteNote(note.note_id)}>
+                <FontAwesomeIcon icon={faTrashCan}/>
+            </div>
         </div>
     );
 };

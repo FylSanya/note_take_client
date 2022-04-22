@@ -1,19 +1,19 @@
 import React, {FC} from 'react';
-import {INoteDB} from "../types/types";
+import {ActiveElement, INoteDB} from "../types/types";
 import NoteItem from "./NoteItem";
 
 interface NoteListProps {
     sortedNotes: INoteDB[]
-    activeNote: string | null,
-    setActiveNote: Function
+    activeElement: ActiveElement,
+    setActiveElement: Function
     onDeleteNote: Function,
 }
 
-const NoteList: FC<NoteListProps> = ({sortedNotes, activeNote, setActiveNote, onDeleteNote}) => {
+const NoteList: FC<NoteListProps> = ({sortedNotes, activeElement, setActiveElement, onDeleteNote}) => {
     return (
         <div className="app-sidebar-notes">
             {sortedNotes.map((note) => (
-                <NoteItem note={note} activeNote={activeNote} setActiveNote={setActiveNote}
+                <NoteItem note={note} activeElement={activeElement} setActiveElement={setActiveElement}
                           onDeleteNote={onDeleteNote}/>
             ))}
         </div>

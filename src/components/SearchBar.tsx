@@ -1,7 +1,10 @@
-import React, {useState} from 'react';
+import React, {FC} from 'react';
 
-const SearchBar = () => {
-    const [searchQuery, setSearchQuery] = useState<string>('')
+interface SearchBarProps {
+    setSearchQuery: Function
+}
+
+const SearchBar: FC<SearchBarProps> = ({setSearchQuery}) => {
 
     return (
         <div>

@@ -8,3 +8,17 @@ export interface INote {
 export interface INoteDB extends INote {
     note_id: string;
 }
+
+export interface ITemplate {
+    title: string;
+    body: string;
+}
+
+export interface ITemplateDB extends ITemplate {
+    template_id: string;
+}
+
+export interface ActiveElement {
+    type: string
+    element_id: string
+}
