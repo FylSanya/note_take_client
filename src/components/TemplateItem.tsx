@@ -1,15 +1,15 @@
-import React, {FC} from 'react';
-import {ActiveElement, ITemplateDB} from "../types/types";
+import React, {Dispatch, FC, SetStateAction} from 'react';
+import {ActiveElement, ITemplate, ITemplateDB} from "../types/types";
 import {faTrashCan, faFile} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 interface TemplateItemProps {
     template: ITemplateDB
-    activeElement: ActiveElement,
-    onAddNote: Function,
-    onDeleteTemplate: Function,
-    setIsTemplate: Function
+    activeElement: ActiveElement
+    onAddNote(template_data?: ITemplate): void
+    onDeleteTemplate(templateId: string): void
+    setIsTemplate: Dispatch<SetStateAction<boolean>>
 }
 
 

@@ -5,7 +5,7 @@ import {INoteDB, ITemplateDB} from "../types/types";
 
 interface NoteProps {
     activeElement: INoteDB | ITemplateDB
-    onUpdateElement: Function
+    onUpdateElement(updatedElem: INoteDB | ITemplateDB): void
 }
 
 

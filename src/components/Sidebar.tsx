@@ -1,19 +1,19 @@
-import {ActiveElement, INoteDB, ITemplateDB} from "../types/types";
-import React, {FC, useState} from "react";
+import {ActiveElement, INoteDB, ITemplate, ITemplateDB} from "../types/types";
+import React, {Dispatch, FC, SetStateAction, useState} from "react";
 import NoteList from "./NoteList";
 import SearchBar from "./SearchBar";
 import TemplateList from "./TemplateList";
 
 interface SidebarProps {
-    notes: INoteDB[],
-    templates: ITemplateDB[],
-    onAddNote: Function,
-    onDeleteNote: Function,
-    activeElement: ActiveElement,
-    setActiveElement: Function
-    onAddTemplate: Function
-    onDeleteTemplate: Function
-    setSearchQuery: Function
+    notes: INoteDB[]
+    templates: ITemplateDB[]
+    onAddNote(template_data?: ITemplate): void
+    onDeleteNote(noteId: string): void
+    activeElement: ActiveElement
+    setActiveElement: Dispatch<SetStateAction<ActiveElement>>
+    onAddTemplate(): void
+    onDeleteTemplate(templateId: string): void
+    setSearchQuery: Dispatch<SetStateAction<string>>
 }
 
 const Sidebar: FC<SidebarProps> = ({
