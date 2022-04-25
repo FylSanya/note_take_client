@@ -20,7 +20,7 @@ class NoteService {
     }
 
     fetchFilteredNotes = async (filteredQuery: string) => {
-        return await axios.get<INoteDB[]>(`${this.API_URL}${filteredQuery}`).then(
+        return await axios.get<INoteDB[]>(this.API_URL + 'search/query/' + filteredQuery).then(
             (response) => {
                 return response.data
             }

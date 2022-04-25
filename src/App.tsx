@@ -30,16 +30,6 @@ const App = () => {
         }
     }, [activeElement, notes, templates]);
 
-    useEffect(() => {
-        setActiveElement({
-            type: '',
-            element_id: ''
-        })
-        NoteService.fetchFilteredNotes(searchQuery).then((response) => {
-                setNotes(response!)
-            }
-        )
-    }, [searchQuery])
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyPress);
@@ -58,6 +48,23 @@ const App = () => {
             setTemplates(response!)
         })
     }, [])
+
+    useEffect(() => {
+        if (searchQuery !== '') {
+            setActiveElement({
+                type: '',
+                element_id: ''
+            })
+            NoteService.fetchFilteredNotes(searchQuery).then((response) => {
+                    setNotes(response!)
+                }
+            )
+        } else {
+            NoteService.fetchNotes().then((response) => {
+                setNotes(response!)
+            })
+        }
+    }, [searchQuery])
 
     const onAddTemplate = () => {
         const newTemplate: ITemplate = {
